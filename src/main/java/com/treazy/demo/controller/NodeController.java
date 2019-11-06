@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.treazy.demo.commands.input.InsertNodeCommand;
 import com.treazy.demo.commands.input.UpdateNodeCommand;
 import com.treazy.demo.commands.result.ChildrenCommandResult;
-import com.treazy.demo.commands.result.NodeCommandResult;
 import com.treazy.demo.entity.Node;
 import com.treazy.demo.service.NodeService;
 
@@ -44,7 +43,7 @@ public class NodeController {
 	
 	@ApiOperation(value = "Returns the entire structure.")
 	@RequestMapping(value = "/node", method = RequestMethod.GET, produces="application/json") 
-	public List<NodeCommandResult> Get() { 
+	public List<Node> Get() { 
 		return _nodeService.Get();
 	}
 	

@@ -3,15 +3,17 @@ package com.treazy.demo.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Node {
@@ -28,11 +30,12 @@ public class Node {
 	@Column(nullable = true, name = "DETAIL")
 	private String detail;
 	
-	@ManyToOne(cascade={CascadeType.ALL})
+	@ManyToOne(fetch = FetchType.LAZY, optional=true)
 	@JoinColumn(name="parent_id")
+	@JsonIgnoreProperties({"code", "description", "detail", "parent", "children"})
 	private Node parent;
 
-	@OneToMany(mappedBy="parent")
+	@OneToMany(mappedBy="parent", fetch = FetchType.LAZY, orphanRemoval=true)
 	private Set<Node> children = new HashSet<Node>();
 
 	public Node getParent() {

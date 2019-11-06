@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.treazy.demo.commands.input.InsertNodeCommand;
 import com.treazy.demo.commands.input.UpdateNodeCommand;
 import com.treazy.demo.commands.result.ChildrenCommandResult;
-import com.treazy.demo.commands.result.NodeCommandResult;
 import com.treazy.demo.entity.Node;
 import com.treazy.demo.repository.NodeRepository;
 
@@ -60,32 +59,15 @@ public class NodeService {
 		return _nodeRepository.findById(id);
 	}
 	
-	public List<NodeCommandResult> Get () {	
-		List<Node> listNode = _nodeRepository.findAll();
+	public List<Node> Get () {	
+		List<Node> listNode = _nodeRepository.findByParent(null);
 		
-		List<NodeCommandResult> listaRetorno = new ArrayList<NodeCommandResult>();
-		
-		for(Node node: listNode) {
-			NodeCommandResult nodeResult = new NodeCommandResult();
-			
-			nodeResult.code = node.getCode();
-			nodeResult.description = node.getDescription();
-			nodeResult.id = node.getId();
-			nodeResult.detail = node.getDetail();
-			
-			if(node.getParent() != null) {
-				nodeResult.parentId = node.getParent().getId();
-			}
-			
-			listaRetorno.add(nodeResult);
-		}
-		
-		return listaRetorno;
+		return listNode;
 	}
 	
-	public List<ChildrenCommandResult> GetByParent (long parentId){
-		
-		List<Node> listaChildren = _nodeRepository.findByParentId(parentId);
+	public List<ChildrenCommandResult> GetByParent (long id){
+		Optional<Node> node = _nodeRepository.findById(id);
+		List<Node> listaChildren = _nodeRepository.findByParent(node);
 		List<ChildrenCommandResult> listItem = new ArrayList<ChildrenCommandResult>();
 		
 		for(Node children: listaChildren) {
