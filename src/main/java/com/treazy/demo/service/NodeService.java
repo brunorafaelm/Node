@@ -45,7 +45,10 @@ public class NodeService {
             node.setCode(command.code);
             node.setDescription(command.description);
             node.setDetail(command.detail);
-            node.setParent(GetById(command.parentId).get());
+            
+            if(command.parentId > 0) {
+                node.setParent(GetById(command.parentId).get());
+            }
             
             _nodeRepository.save(node);
             

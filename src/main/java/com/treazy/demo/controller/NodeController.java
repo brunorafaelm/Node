@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +34,9 @@ public class NodeController {
     
     @ApiOperation(value = "Update a node.")
     @RequestMapping(value = "/node/{id}", method =  RequestMethod.PUT, consumes="application/json")
-    public ResponseEntity<Node> Put(@PathVariable(value = "id") long id, @Valid @RequestBody UpdateNodeCommand command)
+    public long Put(@PathVariable(value = "id") long id, @Valid @RequestBody UpdateNodeCommand command)
     {
-        return _nodeService.Put(id, command);
+        return _nodeService.Put(id, command).getBody().getId();
     }
     
 	
